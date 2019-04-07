@@ -313,7 +313,7 @@
       
         
           
-            <p>##错误描述<br>eclipse添加完pydev后，在perference里面添加pydev interepter,先后添加了python默认编译器（默认编译器库比较少）和anaconda编译器（自带很多库）；然而在项目设置里面将interepter设为anaconda后运行报错:<br>‘’’<br>ImportError:<br>Importing the multiarray numpy extension module failed.  Most<br>likely you are trying to import a failed build of numpy.<br>If you’re working with a numpy git repo, try <code>git clean -xdf</code> (removes all<br>files not under version control).  Otherwise reinstall numpy.<br>Original error was: DLL load failed: 找不到指定的程序。<br>‘’’</p>
+            <h2 id="错误描述"><a href="#错误描述" class="headerlink" title="错误描述"></a>错误描述</h2><p>eclipse添加完pydev后，在perference里面添加pydev interepter,先后添加了python默认编译器（默认编译器库比较少）和anaconda编译器（自带很多库）；然而在项目设置里面将interepter设为anaconda后运行报错:<br>‘’’<br>ImportError:<br>Importing the multiarray numpy extension module failed.  Most<br>likely you are trying to import a failed build of numpy.<br>If you’re working with a numpy git repo, try <code>git clean -xdf</code> (removes all<br>files not under version control).  Otherwise reinstall numpy.<br>Original error was: DLL load failed: 找不到指定的程序。<br>‘’’</p>
 <h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><p>把C:\Users\user\Anaconda3\Library\bin添加到系统变量</p>
 
           
@@ -435,6 +435,12 @@
         
           
             <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo clean 清楚缓存</span><br><span class="line">hexo g -d  部署运行</span><br></pre></td></tr></table></figure>
+<hr>
+<p>19/4/7</p>
+<h2 id="ERROR1"><a href="#ERROR1" class="headerlink" title="ERROR1"></a>ERROR1</h2><p>hexo提交时错误<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Everything up-to-date</span><br></pre></td></tr></table></figure></p>
+<h2 id="solution"><a href="#solution" class="headerlink" title="solution"></a>solution</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo add .</span><br><span class="line">hexo commit -m &quot;message&quot;</span><br><span class="line">hexo push origin master</span><br></pre></td></tr></table></figure>
+<h2 id="ERROR2"><a href="#ERROR2" class="headerlink" title="ERROR2"></a>ERROR2</h2><p>hexo提交时错误(cmd时提示，git bush未提示)（建议用cmd）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">can not read a block mapping entry; a multiline key may not be an implicit key at line 4, column 1:</span><br></pre></td></tr></table></figure></p>
+<h2 id="solution-1"><a href="#solution-1" class="headerlink" title="solution"></a>solution</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">查看新建要上传地md文件，tags或者其他，与后面内容是不是有一个空格。</span><br></pre></td></tr></table></figure>
           
         
       
