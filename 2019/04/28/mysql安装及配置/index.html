@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="iconv命令是用来转换文件的编码方式的 语法1iconv -f encoding [-t encoding] [inputfile]... 选项12345678-f encoding :把字符从encoding编码开始转换。 -t encoding :把字符转换到encoding编码。 -l :列出已知的编码字符集合 -o file :指定输出文件 -c :忽略输出的非法字符 -s :禁止警告信">
+<meta name="description" content="前言ubuntu18.10的系统，第一次上机直接使用apt install mysql-server安装，那么恭喜踩坑。sudo apt install mysql-server默认会安装MySQL 5.7，将会出现一些莫名的问题，例如：安装过程没有要求输入root密码，而登录mysql时会要求密码,以及和ubuntu18.10冲突，无法在mysql命令行中输入中文，阅读了一下MySQL安装指南，">
 <meta property="og:type" content="article">
-<meta property="og:title" content="iconv使用">
-<meta property="og:url" content="https://kungray929.github.io/2019/04/27/iconv使用/index.html">
+<meta property="og:title" content="mysql安装及配置">
+<meta property="og:url" content="https://kungray929.github.io/2019/04/28/mysql安装及配置/index.html">
 <meta property="og:site_name" content="K~BLOG">
-<meta property="og:description" content="iconv命令是用来转换文件的编码方式的 语法1iconv -f encoding [-t encoding] [inputfile]... 选项12345678-f encoding :把字符从encoding编码开始转换。 -t encoding :把字符转换到encoding编码。 -l :列出已知的编码字符集合 -o file :指定输出文件 -c :忽略输出的非法字符 -s :禁止警告信">
+<meta property="og:description" content="前言ubuntu18.10的系统，第一次上机直接使用apt install mysql-server安装，那么恭喜踩坑。sudo apt install mysql-server默认会安装MySQL 5.7，将会出现一些莫名的问题，例如：安装过程没有要求输入root密码，而登录mysql时会要求密码,以及和ubuntu18.10冲突，无法在mysql命令行中输入中文，阅读了一下MySQL安装指南，">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-04-27T14:26:00.633Z">
+<meta property="og:updated_time" content="2019-04-28T07:10:32.650Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="iconv使用">
-<meta name="twitter:description" content="iconv命令是用来转换文件的编码方式的 语法1iconv -f encoding [-t encoding] [inputfile]... 选项12345678-f encoding :把字符从encoding编码开始转换。 -t encoding :把字符转换到encoding编码。 -l :列出已知的编码字符集合 -o file :指定输出文件 -c :忽略输出的非法字符 -s :禁止警告信">
+<meta name="twitter:title" content="mysql安装及配置">
+<meta name="twitter:description" content="前言ubuntu18.10的系统，第一次上机直接使用apt install mysql-server安装，那么恭喜踩坑。sudo apt install mysql-server默认会安装MySQL 5.7，将会出现一些莫名的问题，例如：安装过程没有要求输入root密码，而登录mysql时会要求密码,以及和ubuntu18.10冲突，无法在mysql命令行中输入中文，阅读了一下MySQL安装指南，">
 
 
 
@@ -119,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="https://kungray929.github.io/2019/04/27/iconv使用/">
+  <link rel="canonical" href="https://kungray929.github.io/2019/04/28/mysql安装及配置/">
 
 
 
 
 
-  <title>iconv使用 | K~BLOG</title>
+  <title>mysql安装及配置 | K~BLOG</title>
   
 
 
@@ -242,7 +242,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://kungray929.github.io/2019/04/27/iconv使用/">
+    <link itemprop="mainEntityOfPage" href="https://kungray929.github.io/2019/04/28/mysql安装及配置/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Kunling He">
@@ -259,7 +259,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">iconv使用</h1>
+          <h1 class="post-title" itemprop="name headline">mysql安装及配置</h1>
         
 
         <div class="post-meta">
@@ -271,8 +271,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-27T22:16:00+08:00">
-                2019-04-27
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-28T13:43:12+08:00">
+                2019-04-28
               </time>
             
 
@@ -314,11 +314,23 @@
       
 
       
-        <p>iconv命令是用来转换文件的编码方式的</p>
-<h2 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iconv -f encoding [-t encoding] [inputfile]...</span><br></pre></td></tr></table></figure>
-<h2 id="选项"><a href="#选项" class="headerlink" title="选项"></a>选项</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">-f encoding :把字符从encoding编码开始转换。 </span><br><span class="line">-t encoding :把字符转换到encoding编码。 </span><br><span class="line">-l :列出已知的编码字符集合 </span><br><span class="line">-o file :指定输出文件 </span><br><span class="line">-c :忽略输出的非法字符 </span><br><span class="line">-s :禁止警告信息，但不是错误信息 </span><br><span class="line">--verbose :显示进度信息 </span><br><span class="line">-f和-t所能指定的合法字符在-l选项的命令里面都列出来了。</span><br></pre></td></tr></table></figure>
-<h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><p>列出当前支持的字符编码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iconv -l</span><br></pre></td></tr></table></figure></p>
-<p>将文件file1转码，转后文件输出到fil2中：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iconv -f gbk -t utf8 student.txt -o student1.txt</span><br></pre></td></tr></table></figure></p>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>ubuntu18.10的系统，第一次上机直接使用apt install mysql-server安装，那么恭喜踩坑。<br>sudo apt install mysql-server默认会安装MySQL 5.7，将会出现一些莫名的问题，例如：安装过程没有要求输入root密码，而登录mysql时会要求密码,以及和ubuntu18.10冲突，无法在mysql命令行中输入中文，<br>阅读了一下MySQL安装指南，发现MySQL5.7版本最高只适配到Ubuntu17.04，而MySQL8.0最高适配到Ubuntu18.04。<br>因此卸载mysql5.7,准备装mysql8.0😭</p>
+<p>##卸载<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get autoremove --purge mysql-server-5.7</span><br><span class="line">sudo apt-get remove mysql-common</span><br><span class="line">sudo rm -rf /etc/mysql/  /var/lib/mysql</span><br><span class="line">#清理残留数据</span><br><span class="line">dpkg -l |grep ^rc|awk &apos;&#123;print $2&#125;&apos; |sudo xargs dpkg -P  </span><br><span class="line">sudo apt autoremove</span><br><span class="line">sudo apt autoreclean</span><br></pre></td></tr></table></figure></p>
+<h2 id="官网下载deb包"><a href="#官网下载deb包" class="headerlink" title="官网下载deb包"></a>官网下载deb包</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo dpkg -i mysql-apt-config_0.*.****_all.deb</span><br></pre></td></tr></table></figure>
+<p><strong>注意</strong></p>
+<blockquote>
+<p>泪的教训：<br>刚开始下载了10的.deb包，安装过程中提示和ubuntu cosmic系统不匹配，查询之后发现deb包已经更新到12版，于是下载了12版，和系统匹配成功；<br>然而apt update后获取mysql8.0失败，sudo apt-get install mysql-server依然安装5.7；</p>
+</blockquote>
+<p>解决方法：依然用10的deb包，提示不匹配时选择ubuntu bionic(随便选择的一个)，然后选择mysql8.0，确认即可；</p>
+<h2 id="安装mysql8-0"><a href="#安装mysql8-0" class="headerlink" title="安装mysql8.0"></a>安装mysql8.0</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt-get install mysql-server</span><br></pre></td></tr></table></figure>
+<p>安装过程，将会要求为 MySQL 8 服务器的 root 用户输入密码，在输入和再次验证后按回车继续;<br>MySQL8.0采用了新的加密方式，与Ubuntu18有兼容问题,故选择下面的旧版本5.x的加密方式<br>登录输入用户名与密码，看是否安装成功</p>
+<p>###最后发现mysql终端中文可以输入，问题解决！</p>
+<p>##实验内容<br>1.设计并创建若干table，管理学生选课系统<br><strong>注意</strong><br>创建student表时。ssex一个为char (1),虽然书上讲的一个汉字应该是2个char，但是mysql8.0是一个字符；否则读入student1.txt会报错<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Check constraint &apos;student_chk_1&apos; is violated</span><br></pre></td></tr></table></figure></p>
+<p>2.将data文件夹内的各.txt文档数据读入相应table<br>LOAD DATA INFILE命令</p>
+<blockquote>
+<p>load data infile ‘/var/lib/mysql-files/data/course1.txt’ into table course fields terminated by “,”;</p>
+</blockquote>
+<p>###成功写入！</p>
 
       
     </div>
@@ -343,8 +355,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/04/09/hostapd日志/" rel="next" title="hostapd日志">
-                <i class="fa fa-chevron-left"></i> hostapd日志
+              <a href="/2019/04/27/iconv使用/" rel="next" title="iconv使用">
+                <i class="fa fa-chevron-left"></i> iconv使用
               </a>
             
           </div>
@@ -352,10 +364,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/04/28/mysql安装及配置/" rel="prev" title="mysql安装及配置">
-                mysql安装及配置 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -478,7 +486,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#语法"><span class="nav-number">1.</span> <span class="nav-text">语法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#选项"><span class="nav-number">2.</span> <span class="nav-text">选项</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实例"><span class="nav-number">3.</span> <span class="nav-text">实例</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#官网下载deb包"><span class="nav-number">2.</span> <span class="nav-text">官网下载deb包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装mysql8-0"><span class="nav-number">3.</span> <span class="nav-text">安装mysql8.0</span></a></li></ol></div>
             
 
           </div>
