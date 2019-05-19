@@ -79,17 +79,19 @@
 
 
 
-<meta name="description" content="前言ubuntu18.10的系统，第一次上机直接使用apt install mysql-server安装，那么恭喜踩坑。sudo apt install mysql-server默认会安装MySQL 5.7，将会出现一些莫名的问题，例如：安装过程没有要求输入root密码，而登录mysql时会要求密码,以及和ubuntu18.10冲突，无法在mysql命令行中输入中文，阅读了一下MySQL安装指南，">
+<meta name="description" content="ubuntu配置php+mysql+apache开发环境12345678910111213141516171819#安装mysql   sudo apt-get install mysql-server sudo apt-get install mysql-client #安装apache  sudo apt-get install apache2 #安装php  sudo apt-get ins">
 <meta property="og:type" content="article">
-<meta property="og:title" content="mysql安装及配置">
-<meta property="og:url" content="https://kungray929.github.io/2019/04/28/mysql安装及配置/index.html">
+<meta property="og:title" content="php&amp;mysql学籍系统设计">
+<meta property="og:url" content="https://kungray929.github.io/2019/05/19/php-mysql学籍系统设计/index.html">
 <meta property="og:site_name" content="K~BLOG">
-<meta property="og:description" content="前言ubuntu18.10的系统，第一次上机直接使用apt install mysql-server安装，那么恭喜踩坑。sudo apt install mysql-server默认会安装MySQL 5.7，将会出现一些莫名的问题，例如：安装过程没有要求输入root密码，而登录mysql时会要求密码,以及和ubuntu18.10冲突，无法在mysql命令行中输入中文，阅读了一下MySQL安装指南，">
+<meta property="og:description" content="ubuntu配置php+mysql+apache开发环境12345678910111213141516171819#安装mysql   sudo apt-get install mysql-server sudo apt-get install mysql-client #安装apache  sudo apt-get install apache2 #安装php  sudo apt-get ins">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-04-28T07:11:34.424Z">
+<meta property="og:image" content="https://pic002.cnblogs.com/images/2012/322524/2012110910215147.jpg">
+<meta property="og:updated_time" content="2019-05-19T09:04:11.213Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="mysql安装及配置">
-<meta name="twitter:description" content="前言ubuntu18.10的系统，第一次上机直接使用apt install mysql-server安装，那么恭喜踩坑。sudo apt install mysql-server默认会安装MySQL 5.7，将会出现一些莫名的问题，例如：安装过程没有要求输入root密码，而登录mysql时会要求密码,以及和ubuntu18.10冲突，无法在mysql命令行中输入中文，阅读了一下MySQL安装指南，">
+<meta name="twitter:title" content="php&amp;mysql学籍系统设计">
+<meta name="twitter:description" content="ubuntu配置php+mysql+apache开发环境12345678910111213141516171819#安装mysql   sudo apt-get install mysql-server sudo apt-get install mysql-client #安装apache  sudo apt-get install apache2 #安装php  sudo apt-get ins">
+<meta name="twitter:image" content="https://pic002.cnblogs.com/images/2012/322524/2012110910215147.jpg">
 
 
 
@@ -119,13 +121,13 @@
 
 
 
-  <link rel="canonical" href="https://kungray929.github.io/2019/04/28/mysql安装及配置/">
+  <link rel="canonical" href="https://kungray929.github.io/2019/05/19/php-mysql学籍系统设计/">
 
 
 
 
 
-  <title>mysql安装及配置 | K~BLOG</title>
+  <title>php&mysql学籍系统设计 | K~BLOG</title>
   
 
 
@@ -242,7 +244,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://kungray929.github.io/2019/04/28/mysql安装及配置/">
+    <link itemprop="mainEntityOfPage" href="https://kungray929.github.io/2019/05/19/php-mysql学籍系统设计/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Kunling He">
@@ -259,7 +261,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">mysql安装及配置</h1>
+          <h1 class="post-title" itemprop="name headline">php&mysql学籍系统设计</h1>
         
 
         <div class="post-meta">
@@ -271,8 +273,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-28T13:43:12+08:00">
-                2019-04-28
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-19T16:38:42+08:00">
+                2019-05-19
               </time>
             
 
@@ -314,24 +316,21 @@
       
 
       
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>ubuntu18.10的系统，第一次上机直接使用apt install mysql-server安装，那么恭喜踩坑。<br>sudo apt install mysql-server默认会安装MySQL 5.7，将会出现一些莫名的问题，例如：安装过程没有要求输入root密码，而登录mysql时会要求密码,以及和ubuntu18.10冲突，无法在mysql命令行中输入中文，<br>阅读了一下MySQL安装指南，发现MySQL5.7版本最高只适配到Ubuntu17.04，而MySQL8.0最高适配到Ubuntu18.04。<br>因此卸载mysql5.7,准备装mysql8.0😭</p>
-<p>##卸载<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get autoremove --purge mysql-server-5.7</span><br><span class="line">sudo apt-get remove mysql-common</span><br><span class="line">sudo rm -rf /etc/mysql/  /var/lib/mysql</span><br><span class="line">#清理残留数据</span><br><span class="line">dpkg -l |grep ^rc|awk &apos;&#123;print $2&#125;&apos; |sudo xargs dpkg -P  </span><br><span class="line">sudo apt autoremove</span><br><span class="line">sudo apt autoreclean</span><br></pre></td></tr></table></figure></p>
-<h2 id="官网下载deb包"><a href="#官网下载deb包" class="headerlink" title="官网下载deb包"></a>官网下载deb包</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo dpkg -i mysql-apt-config_0.*.****_all.deb</span><br></pre></td></tr></table></figure>
-<p><strong>注意</strong></p>
-<blockquote>
-<p>泪的教训：<br>刚开始下载了10的.deb包，安装过程中提示和ubuntu cosmic系统不匹配，查询之后发现deb包已经更新到12版，于是下载了12版，和系统匹配成功；<br>然而apt update后获取mysql8.0失败，sudo apt-get install mysql-server依然安装5.7；</p>
+        <h3 id="ubuntu配置php-mysql-apache开发环境"><a href="#ubuntu配置php-mysql-apache开发环境" class="headerlink" title="ubuntu配置php+mysql+apache开发环境"></a>ubuntu配置php+mysql+apache开发环境</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">#安装mysql</span><br><span class="line">  </span><br><span class="line"> sudo apt-get install mysql-server</span><br><span class="line"></span><br><span class="line"> sudo apt-get install mysql-client</span><br><span class="line"> </span><br><span class="line">#安装apache</span><br><span class="line"> </span><br><span class="line"> sudo apt-get install apache2</span><br><span class="line"> </span><br><span class="line">#安装php</span><br><span class="line"> </span><br><span class="line"> sudo apt-get install php7.2</span><br><span class="line"></span><br><span class="line">#安装连接关系</span><br><span class="line"></span><br><span class="line"> sudo apt-get install libapache2-mod-auth-mysql</span><br><span class="line"> </span><br><span class="line"> sudo apt-get install php7-mysql</span><br></pre></td></tr></table></figure>
+<h3 id="连接mysql的一些注意事项"><a href="#连接mysql的一些注意事项" class="headerlink" title="连接mysql的一些注意事项"></a>连接mysql的一些注意事项</h3><blockquote>
+<p><em>1.php7.2并没有自动安装mysqli拓展，而mysql拓展的语法在7.2中不再被支持；
+</em>安装mysqli拓展方法：<br><em>把PHP.ini 里面 extension=mysqli 里面这句前面的引号去掉,然后重启apache,<br>然后用phpinfo();查看配置参数是否已经成功加载了，如果成功加载你会见到有如这样的项：<br><img src="https://pic002.cnblogs.com/images/2012/322524/2012110910215147.jpg" alt="pic">
+</em>注： /etc/init.d/apache2 restart #重启apache</p>
 </blockquote>
-<p>解决方法：依然用10的deb包，提示不匹配时选择ubuntu bionic(随便选择的一个)，然后选择mysql8.0，确认即可；</p>
-<h2 id="安装mysql8-0"><a href="#安装mysql8-0" class="headerlink" title="安装mysql8.0"></a>安装mysql8.0</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt-get install mysql-server</span><br></pre></td></tr></table></figure>
-<p>安装过程，将会要求为 MySQL 8 服务器的 root 用户输入密码，在输入和再次验证后按回车继续;<br>MySQL8.0采用了新的加密方式，与Ubuntu18有兼容问题,故选择下面的旧版本5.x的加密方式<br>登录输入用户名与密码，看是否安装成功</p>
-<p>###最后发现mysql终端中文可以输入，问题解决！</p>
-<p>##实验内容<br>1.设计并创建若干table，管理学生选课系统<br><strong>注意</strong><br>创建student表时。ssex一个为char (1),虽然书上讲的一个汉字应该是2个char，但是mysql8.0是一个字符；否则读入student1.txt会报错<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Check constraint &apos;student_chk_1&apos; is violated</span><br></pre></td></tr></table></figure></p>
-<p>2.将data文件夹内的各.txt文档数据读入相应table<br>LOAD DATA INFILE命令</p>
-<blockquote>
-<p>load data infile ‘/var/lib/mysql-files/data/course1.txt’ into table course fields terminated by “,”;</p>
-</blockquote>
-<p>###成功写入！</p>
+<h3 id="log日志"><a href="#log日志" class="headerlink" title="log日志"></a>log日志</h3><pre><code>用php连接MySQL时，不报错也不显示连接成功什么反应也没有，百度都不知道怎么百度，后面才知道怎么找到错误信息。
 
+找到apache目录下的logs文件夹，找到error文件；
+</code></pre><h3 id="Ubuntu下执行mysql的-sql文件"><a href="#Ubuntu下执行mysql的-sql文件" class="headerlink" title="Ubuntu下执行mysql的.sql文件"></a>Ubuntu下执行mysql的.sql文件</h3><pre><code>执行此命令，会提示输入mysql的root账户的密码，验证成功后，会在dbname这个数据库中执行filename.sql这个脚本，其中filename.sql文件是sql文件所在的路径。
+命令： 
+mysql -u root -p dbname&lt;filename.sql
+例：
+mysql -u root -p xjgl&lt;/home/root/news.sql
+</code></pre>
       
     </div>
     
@@ -355,8 +354,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/04/27/iconv使用/" rel="next" title="iconv使用">
-                <i class="fa fa-chevron-left"></i> iconv使用
+              <a href="/2019/04/28/mysql安装及配置/" rel="next" title="mysql安装及配置">
+                <i class="fa fa-chevron-left"></i> mysql安装及配置
               </a>
             
           </div>
@@ -364,10 +363,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/05/19/php-mysql学籍系统设计/" rel="prev" title="php&mysql学籍系统设计">
-                php&mysql学籍系统设计 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -490,7 +485,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#官网下载deb包"><span class="nav-number">2.</span> <span class="nav-text">官网下载deb包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装mysql8-0"><span class="nav-number">3.</span> <span class="nav-text">安装mysql8.0</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#ubuntu配置php-mysql-apache开发环境"><span class="nav-number">1.</span> <span class="nav-text">ubuntu配置php+mysql+apache开发环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#连接mysql的一些注意事项"><span class="nav-number">2.</span> <span class="nav-text">连接mysql的一些注意事项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#log日志"><span class="nav-number">3.</span> <span class="nav-text">log日志</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Ubuntu下执行mysql的-sql文件"><span class="nav-number">4.</span> <span class="nav-text">Ubuntu下执行mysql的.sql文件</span></a></li></ol></div>
             
 
           </div>
