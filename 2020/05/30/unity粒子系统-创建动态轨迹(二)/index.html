@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="##STEP 1绑定prefabs:particles2(在particles1的基础上)，修改其属性值， ##STEP 2在viewIP.cs中增加下面代码，在viewIP下面的particles绑定prefabs:particles2 ##STEP 3多种变量数组化，使用数组可以让相关traceroute数据(点)有序化，因为每个点的IPpostmp是异步随机到达的，需要对这一部分重构代码。。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="unity粒子系统-创建动态轨迹(二)">
+<meta property="og:url" content="https://kungray929.github.io/2020/05/30/unity粒子系统-创建动态轨迹(二)/index.html">
+<meta property="og:site_name" content="K~BLOG">
+<meta property="og:description" content="##STEP 1绑定prefabs:particles2(在particles1的基础上)，修改其属性值， ##STEP 2在viewIP.cs中增加下面代码，在viewIP下面的particles绑定prefabs:particles2 ##STEP 3多种变量数组化，使用数组可以让相关traceroute数据(点)有序化，因为每个点的IPpostmp是异步随机到达的，需要对这一部分重构代码。。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-05-30T13:38:56.150Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="unity粒子系统-创建动态轨迹(二)">
+<meta name="twitter:description" content="##STEP 1绑定prefabs:particles2(在particles1的基础上)，修改其属性值， ##STEP 2在viewIP.cs中增加下面代码，在viewIP下面的particles绑定prefabs:particles2 ##STEP 3多种变量数组化，使用数组可以让相关traceroute数据(点)有序化，因为每个点的IPpostmp是异步随机到达的，需要对这一部分重构代码。。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://kungray929.github.io/2020/05/30/unity粒子系统-创建动态轨迹(二)/">
+
+
+
+
+
+  <title>unity粒子系统-创建动态轨迹(二) | K~BLOG</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">K~BLOG</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">K~</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://kungray929.github.io/2020/05/30/unity粒子系统-创建动态轨迹(二)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Kunling He">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="K~BLOG">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">unity粒子系统-创建动态轨迹(二)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-30T00:49:15+08:00">
+                2020-05-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o">阅读数</i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>##STEP 1<br>绑定prefabs:particles2(在particles1的基础上)，修改其属性值，</p>
+<p>##STEP 2<br>在viewIP.cs中增加下面代码，在viewIP下面的particles绑定prefabs:particles2</p>
+<p>##STEP 3<br>多种变量数组化，使用数组可以让相关traceroute数据(点)有序化，因为每个点的IPpostmp是异步随机到达的，需要对这一部分重构代码。。</p>
+<p>###BUG-1:在scence和game视图中显示不出来粒子系统轨迹<br>在Instantiate中第二个参数调高到500，使粒子系统升高，之前看不到是因为IPview的图片在轨迹上面，遮挡住了</p>
+<p>###BUG-2：轨迹上的点是一条沿着z轴的直线（佛了<br>删去“particleLine.transform.SetParent(gameObject.transform);”这个BUG在自建测试项目中相同代码没有错，在沙盘中就会有这个BUG</p>
+<p>###BUG-3：粒子改变方向后(例如__|形状轨迹),会变成两列甚至3列__||，__|||不再是一条直线<br>不再用particleList[i].velocity = directions[count];改为particleList[i].position = nodes[count];简单粗暴直接</p>
+<p>###BUG-4：particleList[i].position = nodes[count];显示有溢出错误<br>start()中添加nodes.Add(nodes[nodes.Count-1]);</p>
+<p>##单挑自拟轨迹示例代码(节选自viewIP.cs)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line">    public List&lt;Vector3&gt; nodes;   </span><br><span class="line">    public Vector3[] directions;</span><br><span class="line">    public GameObject particles;</span><br><span class="line">    public GameObject particleLine;</span><br><span class="line"></span><br><span class="line">    void Start()</span><br><span class="line">    &#123;</span><br><span class="line">        IPSize.x = Consts.IPSize.x * IPLevelScales[IPLevelScales.Length - 1];</span><br><span class="line">        IPSize.y = Consts.IPSize.y * IPLevelScales[IPLevelScales.Length - 1];</span><br><span class="line">        IPPos = Consts.IPPos;</span><br><span class="line"></span><br><span class="line">        IPLevels[0] = IP20;</span><br><span class="line">        IPLevels[1] = IP24;</span><br><span class="line">        IPLevels[2] = IP28;</span><br><span class="line">        IPLevels[3] = IP32;</span><br><span class="line"></span><br><span class="line">        lastCameraIdx = Vector2.zero;</span><br><span class="line">        lastLv = -1;</span><br><span class="line"></span><br><span class="line">        heightLv24 = heightLv20 / 4.0f;</span><br><span class="line">        heightLv28 = heightLv24 / 4.0f;</span><br><span class="line">        heightLv32 = heightLv28 / 4.0f;</span><br><span class="line">        heightIconOn = heightLv32 / 2.0f;</span><br><span class="line"></span><br><span class="line">        </span><br><span class="line">        //add by hkl 2020/5/20</span><br><span class="line"></span><br><span class="line">        for(int i=0;i&lt;=2000;i=i+200)</span><br><span class="line">        nodes.Add(new Vector3(i, 500, 0));</span><br><span class="line">        for(int i=0;i&lt;=2000;i=i+200)</span><br><span class="line">        nodes.Add(new Vector3(2000, 500, i));</span><br><span class="line"></span><br><span class="line">        </span><br><span class="line"></span><br><span class="line">                particleLine = Instantiate(particles, new Vector3(0, 500, 0), Quaternion.identity);</span><br><span class="line">        //particleLine.transform.SetParent(gameObject.transform);</span><br><span class="line">        ParticleSystem part = particleLine.GetComponent&lt;ParticleSystem&gt;();</span><br><span class="line">        part.startLifetime = nodes.Count;</span><br><span class="line">        if (nodes.Count == 0)</span><br><span class="line">            Debug.LogError(&quot;请添加至少1个node&quot;);</span><br><span class="line">        //自动生成方向</span><br><span class="line">        directions = new Vector3[nodes.Count+1];</span><br><span class="line">        for (int i = 0; i &lt; nodes.Count; i++)</span><br><span class="line">            directions[i] = (nodes[i] - ((i - 1 &gt;= 0) ? nodes[i - 1] : transform.position));</span><br><span class="line">        nodes.Add(nodes[nodes.Count-1]);   //#BUG-4</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">void Update()</span><br><span class="line">    &#123;</span><br><span class="line">ParticleSystem part= particleLine.GetComponent&lt;ParticleSystem&gt;();</span><br><span class="line">        ParticleSystem.Particle[] particleList = new ParticleSystem.Particle[part.particleCount];</span><br><span class="line">        int partCount = part.GetParticles(particleList);</span><br><span class="line">        for (int i = 0; i &lt; partCount; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            // 计算粒子当前的生命</span><br><span class="line">            Debug.Log(&quot;HKL  &quot; + partCount.ToString());</span><br><span class="line">            float timeALive = particleList[i].startLifetime - particleList[i].lifetime;</span><br><span class="line">            float dist = GetAddedMagnitude((int) timeALive);</span><br><span class="line">            int count = 0;</span><br><span class="line">            //判断位置信息</span><br><span class="line">            while (dist &gt; GetAddedMagnitude(count))</span><br><span class="line">            &#123;</span><br><span class="line">                count++;</span><br><span class="line">                particleList[i].position = nodes[count];//particleList[i].velocity = directions[count];  //#BUG-3</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        part.SetParticles(particleList, partCount);</span><br><span class="line">        //</span><br><span class="line"></span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>##最终多条traceroute轨迹示例代码(节选自viewIP.cs)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">    public Vector3[,] pointslist = new Vector3[1000,100];//1000条trae数据，每条最大长度100</span><br><span class="line">    public Vector3[,] pointslist2 = new Vector3[1000,5000];//1000条trae数据，每条最大长度10000(切分更细后)</span><br><span class="line">    public List&lt;GameObject&gt; particlesList = new List&lt;GameObject&gt;();</span><br><span class="line">    public bool[] pointslist2_flag = new  bool[1000];</span><br><span class="line">    //public List&lt;Vector3[]&gt; directionsList;</span><br><span class="line">    //public Vector3[] points=new Vector3[100];</span><br><span class="line">    //public List&lt;Vector3&gt; nodes;   </span><br><span class="line">    public Vector3[] directions;</span><br><span class="line">    public GameObject particles;</span><br><span class="line">    public GameObject particleLine;</span><br><span class="line">    public int particle_height = 500;//粒子系统高度</span><br><span class="line">    public int[] points_number = new int[1000];//每条traceroute已经放进pointslist的数量</span><br><span class="line">    public int[] points2_number = new int[2000];//每条细分后的traceroute已经放进pointslist2的数量</span><br><span class="line"></span><br><span class="line">    void Start()</span><br><span class="line">    &#123;</span><br><span class="line">        IPSize.x = Consts.IPSize.x * IPLevelScales[IPLevelScales.Length - 1];</span><br><span class="line">        IPSize.y = Consts.IPSize.y * IPLevelScales[IPLevelScales.Length - 1];</span><br><span class="line">        IPPos = Consts.IPPos;</span><br><span class="line"></span><br><span class="line">        IPLevels[0] = IP20;</span><br><span class="line">        IPLevels[1] = IP24;</span><br><span class="line">        IPLevels[2] = IP28;</span><br><span class="line">        IPLevels[3] = IP32;</span><br><span class="line"></span><br><span class="line">        lastCameraIdx = Vector2.zero;</span><br><span class="line">        lastLv = -1;</span><br><span class="line"></span><br><span class="line">        heightLv24 = heightLv20 / 4.0f;</span><br><span class="line">        heightLv28 = heightLv24 / 4.0f;</span><br><span class="line">        heightLv32 = heightLv28 / 4.0f;</span><br><span class="line">        heightIconOn = heightLv32 / 2.0f;</span><br><span class="line"></span><br><span class="line">        </span><br><span class="line">        //add by hkl 2020/5/20</span><br><span class="line">        //</span><br><span class="line">        int lindex=1;//第lindex行traceroute数据</span><br><span class="line">        StreamReader sr = new StreamReader(&quot;C:\\Users\\11237\\Desktop\\IP_traceroute.txt&quot;);</span><br><span class="line">        //points = new Vector3[100];</span><br><span class="line">        //pointslist =new Vector3[1000,100];</span><br><span class="line">        //particlesList = new List&lt;GameObject&gt;();</span><br><span class="line">        string s;</span><br><span class="line">        s = sr.ReadLine();</span><br><span class="line">        while (s != null)</span><br><span class="line">        &#123;</span><br><span class="line">            int len=0;</span><br><span class="line">            int index=1;</span><br><span class="line">            string[] IPstringArray = s.Split(&apos;,&apos;);</span><br><span class="line">            for (int i = 0; i &lt; IPstringArray.Length; i++)</span><br><span class="line">                if (IPstringArray[i].Split(&apos;.&apos;).Length == 4)</span><br><span class="line">                    len++;</span><br><span class="line">            for (int i = 0; i &lt; IPstringArray.Length; i++)</span><br><span class="line">                if (IPstringArray[i].Split(&apos;.&apos;).Length == 4)</span><br><span class="line">                    &#123;</span><br><span class="line">                    NetUtil.Instance.RequestIpMapInfo_byIP(IPstringArray[i],IPSize,IPpostmp,lindex,index,len);</span><br><span class="line">                    index++;</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">            Debug.Log(&quot;s&quot;+s.ToString());</span><br><span class="line">            s = sr.ReadLine();</span><br><span class="line">            lindex++;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    void IPpostmp(float x,float z,int lindex,int index,int len)</span><br><span class="line">    &#123;</span><br><span class="line">        Debug.Log(&quot;point x z index len &quot;+x.ToString()+&quot; &quot;+ z.ToString() + &quot; &quot;+ index.ToString() + &quot; &quot;+ len.ToString() + &quot; &quot;);</span><br><span class="line">        pointslist[lindex,index]=new Vector3(x, particle_height, z);</span><br><span class="line">        points_number[lindex]++;</span><br><span class="line"></span><br><span class="line">        if(points_number[lindex]==len)</span><br><span class="line">        &#123;</span><br><span class="line">            for(int i=1;i&lt;= points_number[lindex];i++)</span><br><span class="line">            Debug.Log(&quot;pointslist[lindex].&quot; +i.ToString()+&quot; &quot;+ pointslist[lindex, i].ToString()+ &quot; &quot; );</span><br><span class="line">            </span><br><span class="line">            int index2=0;</span><br><span class="line">            for(int k=1;k&lt;len;k++)</span><br><span class="line">            &#123;</span><br><span class="line">                int iex;</span><br><span class="line">                if(pointslist[lindex,k].x&gt;pointslist[lindex,k+1].x)</span><br><span class="line">                     iex=(int)(pointslist[lindex,k].x - pointslist[lindex,k+1].x)/100;</span><br><span class="line">                else</span><br><span class="line">                     iex=(int)(pointslist[lindex,k+1].x - pointslist[lindex,k].x)/100;</span><br><span class="line">                float xf=pointslist[lindex,k].x;</span><br><span class="line">                float zf=pointslist[lindex,k].z;</span><br><span class="line">                float len1=pointslist[lindex,k].x - pointslist[lindex,k+1].x;</span><br><span class="line">                float len2=pointslist[lindex,k].z - pointslist[lindex,k+1].z;</span><br><span class="line">                for(int i=0;i&lt;=iex;i++)</span><br><span class="line">                    pointslist2[lindex,index2++] = new Vector3(xf-i*len1/iex, particle_height,zf-i*len2/iex);   </span><br><span class="line">            &#125;</span><br><span class="line">            for(int i=0;i&lt;= index2;i++)</span><br><span class="line">            Debug.Log(&quot;pointslist2[lindex2].&quot; +i.ToString()+&quot; &quot;+ pointslist2[lindex, i].ToString()+ &quot; &quot; );</span><br><span class="line"></span><br><span class="line">            particleLine = Instantiate(particles, new Vector3(pointslist[lindex,1].x, particle_height, pointslist[lindex,1].z), Quaternion.identity);</span><br><span class="line">            //particleLine.transform.SetParent(gameObject.transform);</span><br><span class="line">            ParticleSystem part = particleLine.GetComponent&lt;ParticleSystem&gt;();</span><br><span class="line">            part.startLifetime = index2;</span><br><span class="line">            //points.Add(points[points.Length-1]);</span><br><span class="line">            particlesList.Add(particleLine);</span><br><span class="line">            pointslist2_flag[lindex] = true;</span><br><span class="line">            points2_number[lindex]=index2;</span><br><span class="line">   </span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    //end</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">    //add by hkl 5/28</span><br><span class="line">    private float GetAddedMagnitude(int count)</span><br><span class="line">    &#123;</span><br><span class="line">        float addedMagnitude = 0;</span><br><span class="line">        if(count&gt;=0&amp;&amp;count&lt;directions.Length)</span><br><span class="line">        for (int i = 0; i &lt; count; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            addedMagnitude += directions[i].magnitude;</span><br><span class="line">        &#125;</span><br><span class="line">        return addedMagnitude;</span><br><span class="line">    &#125;</span><br><span class="line">    //end</span><br><span class="line"></span><br><span class="line">    // Update is called once per frame</span><br><span class="line">    void Update()</span><br><span class="line">    &#123;</span><br><span class="line">        //add by hkl 5/28</span><br><span class="line">        </span><br><span class="line">        for(int i=0;i&lt;particlesList.Count;i++)</span><br><span class="line">        if(pointslist2_flag[i+1])</span><br><span class="line">        &#123;</span><br><span class="line">            //particlesList[i].SetActive(true);</span><br><span class="line">            </span><br><span class="line">            ParticleSystem part = particlesList[i].GetComponent&lt;ParticleSystem&gt;();</span><br><span class="line">            //ParticleSystem part= particleLine.GetComponent&lt;ParticleSystem&gt;();</span><br><span class="line">            ParticleSystem.Particle[] particleList = new ParticleSystem.Particle[part.particleCount];</span><br><span class="line">            int partCount = part.GetParticles(particleList);</span><br><span class="line"></span><br><span class="line">            Vector3[] points2 = new Vector3[5000];</span><br><span class="line">            for(int j=0;j&lt;points2_number[i+1];j++)</span><br><span class="line">                &#123;</span><br><span class="line">                    points2[j] = pointslist2[i + 1, j];</span><br><span class="line">                    Debug.Log(&quot; points2 i j value&quot;+i.ToString()+&quot; &quot; + j.ToString() + &quot; &quot; + points2[j].ToString() + &quot; &quot;);</span><br><span class="line">                &#125;</span><br><span class="line">                /*</span><br><span class="line">                points.Clear();</span><br><span class="line">                for(int k=0;k&lt;=400;k=k+20)</span><br><span class="line">                points.Add(new Vector3(k, 500, 0));</span><br><span class="line">                for(int k=0;k&lt;=400;k=k+20)</span><br><span class="line">                points.Add(new Vector3(400, 500,k));</span><br><span class="line">                points.Add(new Vector3(0,0,0));*/</span><br><span class="line">                //directions = directionsList[i];</span><br><span class="line">                //Debug.Log(&quot;i,pointslist,pointslist[0],points=&quot;+i.ToString()+&quot;  &quot;+particlesList.Count.ToString()+&quot;  &quot;+pointslist[0].Count.ToString()+&quot;  &quot;+points.Count.ToString());</span><br><span class="line">                //particles.startLifetime = points.Count;</span><br><span class="line">                //自动生成方向</span><br><span class="line">                directions = new Vector3[points2.Length+1];</span><br><span class="line">            for (int j = 0; j &lt; points2.Length; j++)</span><br><span class="line">                    directions[j] = (points2[j] - ((j - 1 &gt;= 0) ? points2[j - 1] : transform.position));</span><br><span class="line">            //for (int j = 0; j &lt; points.Count; j++)</span><br><span class="line">            //    directions[i] = (points[i] - ((i - 1 &gt;= 0) ? points[i - 1] : transform.position));</span><br><span class="line">            </span><br><span class="line">            //ParticleSystem.Particle[] particleList = new ParticleSystem.Particle[particles.particleCount];</span><br><span class="line">            //int partCount = particles.GetParticles(particleList);</span><br><span class="line"></span><br><span class="line">            for (int j = 0; j &lt; partCount; j++)</span><br><span class="line">            &#123;</span><br><span class="line">                // 计算粒子当前的生命</span><br><span class="line">                //Debug.Log(&quot;HKL  &quot; + partCount.ToString());</span><br><span class="line">                float timeALive = particleList[j].startLifetime - particleList[j].lifetime;</span><br><span class="line">                float dist = GetAddedMagnitude((int) timeALive);</span><br><span class="line">                int count = 0;</span><br><span class="line">                //判断位置信息</span><br><span class="line">                while (dist &gt; GetAddedMagnitude(count))</span><br><span class="line">                &#123;</span><br><span class="line">                    count++;</span><br><span class="line">                    if(count&lt;points2.Length)</span><br><span class="line">                    particleList[j].position = points2[count];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            part.SetParticles(particleList, partCount);</span><br><span class="line"></span><br><span class="line">    /*</span><br><span class="line">            for (int k = 0; k &lt; partCount; k++)</span><br><span class="line">            &#123;</span><br><span class="line">                // 计算粒子当前的生命</span><br><span class="line">                float timeALive = particleList[k].startLifetime - particleList[k].lifetime;</span><br><span class="line">                float dist = GetAddedMagnitude((int) timeALive);</span><br><span class="line">                int count = 0;</span><br><span class="line">                //判断位置信息</span><br><span class="line">                while (dist &gt; GetAddedMagnitude(count))</span><br><span class="line">                &#123;</span><br><span class="line">                    count++;</span><br><span class="line">                    particleList[k].velocity = directions[count];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            particles.SetParticles(particleList, partCount);*/</span><br><span class="line">        </span><br><span class="line">        &#125;</span><br><span class="line">        //end</span><br><span class="line">        //</span><br><span class="line">        //</span><br><span class="line">        /*</span><br><span class="line">        ParticleSystem part= particleLine.GetComponent&lt;ParticleSystem&gt;();</span><br><span class="line">        ParticleSystem.Particle[] particleList = new ParticleSystem.Particle[part.particleCount];</span><br><span class="line">        int partCount = part.GetParticles(particleList);</span><br><span class="line">        for (int i = 0; i &lt; partCount; i++)</span><br><span class="line">        &#123;</span><br><span class="line">            // 计算粒子当前的生命</span><br><span class="line">            //Debug.Log(&quot;HKL  &quot; + partCount.ToString());</span><br><span class="line">            float timeALive = particleList[i].startLifetime - particleList[i].lifetime;</span><br><span class="line">            float dist = GetAddedMagnitude((int) timeALive);</span><br><span class="line">            int count = 0;</span><br><span class="line">            //判断位置信息</span><br><span class="line">            while (dist &gt; GetAddedMagnitude(count))</span><br><span class="line">            &#123;</span><br><span class="line">                count++;</span><br><span class="line">                particleList[i].position = nodes[count];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        part.SetParticles(particleList, partCount);*/</span><br><span class="line">        //</span><br><span class="line">        </span><br><span class="line"></span><br><span class="line">        </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/05/26/unity-创建多个linerender(一)/" rel="next" title="unity创建多个linerender(一)">
+                <i class="fa fa-chevron-left"></i> unity创建多个linerender(一)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Kunling He</p>
+              <p class="site-description motion-element" itemprop="description">不畏将来 不念过往</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Kunling He</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user">访问人数</i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye">总访问量</i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
